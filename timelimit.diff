@@ -1,0 +1,30 @@
+diff --git a/code/game/g_main.c b/code/game/g_main.c
+index 4bf2fd5..325a3c7 100644
+--- a/code/game/g_main.c
++++ b/code/game/g_main.c
+@@ -1921,6 +1921,16 @@ void CheckExitRules( void ) {
+ 		return;
+ 	}
+ 
++	if ( g_timelimit.integer < 0 ) {
++		trap_SendServerCommand( -1, "print \"Timelimit is negative.\n\"" );
++		trap_Cvar_Set( "timelimit", "0" );
++		trap_Cvar_Update( &g_timelimit );
++	} else if ( g_timelimit.integer > INT_MAX / 60000 ) {
++		trap_SendServerCommand( -1, "print \"Timelimit is too large.\n\"" );
++		trap_Cvar_Set( "timelimit", "0" );
++		trap_Cvar_Update( &g_timelimit );
++	}
++
+ #ifndef SMOKINGUNS
+ 	if ( g_timelimit.integer && !level.warmupTime ) {
+ #else
+@@ -1931,7 +1941,7 @@ void CheckExitRules( void ) {
+ 			// Joe Kari: no Timelimit if the round has already begun (more than 15 seconds)
+ 			&& ( g_gametype.integer < GT_RTP || level.time < g_roundstarttime + 15000 || level.time > g_roundendtime ) )
+ 		{
+-			trap_SendServerCommand( -1, "print \"Timelimit hit.\n\"");
++			trap_SendServerCommand( -1, "print \"Timelimit hit.\n\"" );
+ 			PushMinilog( "TIMELIMIT:" ) ;
+ 			LogExit( "Timelimit hit." );
+ 			return;
