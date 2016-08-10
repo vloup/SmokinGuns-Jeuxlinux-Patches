@@ -7,3 +7,4 @@ The patches are provided as diff files of the [v1.1 branch of the official Smoki
 | **Patch**		| **Description**				|
 |-----------------------|-----------------------------------------------|
 | timelimit.diff	| fixes an integer overflow in the timelimit	|
+| fraglimit.diff	| avoid the fraglimit being negative		|
